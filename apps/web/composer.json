@@ -1,0 +1,84 @@
+{
+    "name": "ruoshu/web",
+    "type": "project",
+    "description": "若书小说平台 - Laravel 主站",
+    "require": {
+        "php": "^8.3",
+        "laravel/framework": "^12.0",
+        "laravel/sanctum": "^4.0",
+        "filament/filament": "^3.3",
+        "laravel/scout": "^10.5",
+        "meilisearch/meilisearch-php": "^1.10",
+        "predis/predis": "^2.2",
+        "firebase/php-jwt": "^7.0",
+        "guzzlehttp/guzzle": "^7.9",
+        "intervention/image": "^3.5",
+        "maennchen/zipstream-php": "^3.1"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.23",
+        "laravel/pint": "^1.13",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.1",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0",
+        "phpstan/phpstan": "^1.12"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ],
+        "format": "pint --preset=psr12 --preset=laravel",
+        "stan": "phpstan analyse --level=6",
+        "test": "pest",
+        "test-coverage": "pest --coverage"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        },
+        "audit": {
+            "abandoned": "ignore"
+        },
+        "policy": {
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "repositories": [{
+        "name": "packagist",
+        "type": "composer",
+        "url": "https://mirrors.aliyun.com/composer/"
+    }]
+}

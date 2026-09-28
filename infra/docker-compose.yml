@@ -1,0 +1,131 @@
+version: "3.9"
+
+# 若书小说平台 - 开发环境 docker-compose
+# 启动：docker compose up -d
+# 停止：docker compose down
+# 清理数据：docker compose down -v
+
+services:
+  # ===== 应用层 =====
+  web:
+    build:
+      context: ../apps/web
+      dockerfile: ../../infra/Dockerfile.web
+    container_name: ruoshu_web
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      ai-python:
+        condition: service_started
+    environment:
+      DB_HOST: mysql
+      REDIS_HOST: redis
+      AI_PYTHON_BASE_URL: http://ai-python:9000
+      REALTIME_WS_URL: ws://realtime:8080/ws
+    volumes:
+      - ../apps/web:/var/www/html
+      - ./secrets:/run/secrets:ro
+    ports:
+      - "8000:8000"
+    networks: [ruoshu_net]
+    command: >
+      sh -c "composer install --no-interaction --prefer-dist &&
+             php artisan key:generate --force &&
+             php artisan migrate --force &&
+             php artisan serve --host=0.0.0.0 --port=8000"
+
+  realtime:
+    build:
+      context: ../apps/realtime
+      dockerfile: ../../infra/Dockerfile.realtime
+    container_name: ruoshu_realtime
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      REDIS_ADDR: redis:6379
+      JWT_PUBLIC_KEY_FILE: /run/secrets/realtime_jwt_pub.pem
+      JWT_ISSUER: ruoshu-dev
+      REALTIME_PORT: "8080"
+    volumes:
+      - ./secrets:/run/secrets:ro
+    ports:
+      - "8080:8080"
+    networks: [ruoshu_net]
+
+  ai-python:
+    build:
+      context: ../services/ai-python
+      dockerfile: ../../infra/Dockerfile.ai-python
+    container_name: ruoshu_ai_python
+    restart: unless-stopped
+    expose:
+      - "9000"
+    networks: [ruoshu_net]
+    # 注意：仅内网暴露，无 ports 映射
+
+  # ===== 数据层 =====
+  mysql:
+    image: mysql:8.4
+    container_name: ruoshu_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ruoshu_root_dev
+      MYSQL_DATABASE: ruoshu
+      MYSQL_USER: ruoshu
+      MYSQL_PASSWORD: ruoshu_dev
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-authentication-plugin=mysql_native_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks: [ruoshu_net]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pruoshu_root_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7.4-alpine
+    container_name: ruoshu_redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks: [ruoshu_net]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.11
+    container_name: ruoshu_meilisearch
+    restart: unless-stopped
+    environment:
+      MEILI_MASTER_KEY: ruoshu_dev_master_key
+      MEILI_NO_ANALYTICS: "true"
+    volumes:
+      - meili_data:/meili_data
+    ports:
+      - "7700:7700"
+    networks: [ruoshu_net]
+
+volumes:
+  mysql_data:
+  redis_data:
+  meili_data:
+
+networks:
+  ruoshu_net:
+    driver: bridge

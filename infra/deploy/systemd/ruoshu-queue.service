@@ -1,0 +1,30 @@
+# 若书 · Laravel 队列消费（任务 13.5，双机各一份，滚动重启）
+# 安装：cp infra/deploy/systemd/*.service /etc/systemd/system/ && systemctl daemon-reload
+#     : systemctl enable --now ruoshu-queue
+[Unit]
+Description=Ruoshu Laravel queue worker
+After=network.target mysql.service redis.service
+PartOf=ruoshu.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/srv/ruoshu/current/web
+# --tries 配合 Job->tries；--max-time 让 worker 定期重生（防内存泄漏）；queue=default 全部任务同队列（代码现状）
+ExecStart=/usr/bin/php /srv/ruoshu/current/web/artisan queue:work \
+    --queue=default \
+    --sleep=1 \
+    --tries=5 \
+    --max-time=3600 \
+    --memory=256
+Restart=always
+RestartSec=3
+# 停机优雅等待（任务进行中的项跑完再退，避免存证半途）
+TimeoutStopSec=60
+KillSignal=SIGTERM
+# 部署时用 ruoshu-queue.path 或 deploy.sh 显式 restart
+Environment=APP_ENV=production
+
+[Install]
+WantedBy=multi-user.target

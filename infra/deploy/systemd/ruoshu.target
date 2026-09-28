@@ -1,0 +1,7 @@
+# 若书 · 全体单元聚合（systemctl restart ruoshu.target 滚动整组，子单元已声明 PartOf）
+[Unit]
+Description=Ruoshu service group
+Wants=ruoshu-queue.service ruoshu-realtime.service ruoshu-ai-python.service
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,39 @@
+# ===== 依赖（composer/npm）=====
+apps/web/vendor/
+**/node_modules/
+services/ai-python/__pycache__/
+services/ai-python/*.pyc
+services/ai-python/.venv/
+services/ai-python/venv/
+*.err
+
+# ===== 环境与密钥（红线：永不入库）=====
+.env
+.env.*
+!.env.example
+apps/web/.env
+apps/web/.env.*
+infra/secrets/
+*.pem
+*.key
+!infra/secrets/.gitkeep
+
+# ===== 运行时产物 =====
+apps/web/storage/logs/
+apps/web/storage/framework/
+apps/web/storage/app/
+apps/web/bootstrap/cache/
+services/ai-python/*.err
+*.log
+
+# ===== IDE / OS =====
+.idea/
+.vscode/
+*.swp
+Thumbs.db
+.DS_Store
+
+# ===== 构建产物 =====
+apps/realtime/realtime
+apps/realtime/ruoshu-realtime
+/tmp/

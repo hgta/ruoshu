@@ -1,0 +1,64 @@
+name: web-lint-test
+
+on:
+  push:
+    paths:
+      - "apps/web/**"
+      - ".github/workflows/web-lint-test.yml"
+  pull_request:
+    paths:
+      - "apps/web/**"
+
+defaults:
+  run:
+    working-directory: apps/web
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          tools: composer
+      - name: 安装依赖
+        run: composer install --prefer-dist --no-progress --no-interaction
+      - name: Pint（代码风格）
+        run: vendor/bin/pint --test
+      - name: PHPStan（静态分析）
+        run: vendor/bin/phpstan analyse --no-progress
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: ruoshu_test
+        ports: [3306:3306]
+        options: --health-cmd="mysqladmin ping -h localhost -u root -proot" --health-interval=10s --health-timeout=5s --health-retries=5
+      redis:
+        image: redis:7.4-alpine
+        ports: [6379:6379]
+        options: --health-cmd="redis-cli ping" --health-interval=5s --health-timeout=3s --health-retries=5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          tools: composer
+          coverage: xdebug
+      - run: composer install --prefer-dist --no-progress --no-interaction
+      - name: 配置测试环境
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          echo 'DB_CONNECTION=mysql' >> .env
+          echo 'DB_HOST=127.0.0.1' >> .env
+          echo 'DB_DATABASE=ruoshu_test' >> .env
+          echo 'DB_USERNAME=root' >> .env
+          echo 'DB_PASSWORD=root' >> .env
+          echo 'REDIS_HOST=127.0.0.1' >> .env
+      - name: 运行测试
+        run: vendor/bin/pest --parallel

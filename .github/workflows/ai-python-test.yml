@@ -1,0 +1,39 @@
+name: ai-python-test
+
+on:
+  push:
+    paths:
+      - "services/ai-python/**"
+      - ".github/workflows/ai-python-test.yml"
+  pull_request:
+    paths:
+      - "services/ai-python/**"
+
+defaults:
+  run:
+    working-directory: services/ai-python
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 安装 ruff
+        run: pip install ruff
+      - run: ruff check .
+      - run: ruff format --check .
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: services/ai-python/requirements.txt
+      - run: pip install -r requirements.txt pytest httpx
+      - run: pytest -v
+        # smoke_test.py 验证 plan→embed→extract 往返

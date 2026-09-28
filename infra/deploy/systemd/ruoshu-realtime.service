@@ -1,0 +1,21 @@
+# 若书 · Go 实时服务（WebSocket 弹幕/打赏广播，双机各一份，前置 nginx ip_hash 分流）
+[Unit]
+Description=Ruoshu realtime WebSocket service
+After=network.target redis.service
+PartOf=ruoshu.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/srv/ruoshu/current
+ExecStart=/srv/ruoshu/current/bin/realtime
+Restart=always
+RestartSec=3
+# Graceful：等连接排空
+TimeoutStopSec=30
+KillSignal=SIGTERM
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

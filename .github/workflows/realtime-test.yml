@@ -1,0 +1,39 @@
+name: realtime-test
+
+on:
+  push:
+    paths:
+      - "apps/realtime/**"
+      - ".github/workflows/realtime-test.yml"
+  pull_request:
+    paths:
+      - "apps/realtime/**"
+
+defaults:
+  run:
+    working-directory: apps/realtime
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+          cache-dependency-path: apps/realtime/go.sum
+      - run: go vet ./...
+      - run: gofmt -l . | tee /dev/stderr && test -z "$(gofmt -l .)"
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+          cache-dependency-path: apps/realtime/go.sum
+      - run: go test -race -coverprofile=coverage.out ./...
+      - uses: actions/upload-artifact@v4
+        with:
+          name: realtime-coverage
+          path: apps/realtime/coverage.out

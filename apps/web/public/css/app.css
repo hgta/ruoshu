@@ -1,0 +1,137 @@
+/* 若书 MVP 基础样式（后续由视觉稿替换） */
+* { box-sizing: border-box; margin: 0; }
+body { font: 16px/1.8 "PingFang SC", "Microsoft YaHei", sans-serif; color: #2c2420; background: #faf7f2; }
+a { color: #8a5a44; text-decoration: none; }
+main { max-width: 720px; margin: 0 auto; padding: 16px; }
+.topnav { display: flex; gap: 16px; align-items: center; padding: 12px 24px; background: #fff; border-bottom: 1px solid #eee; }
+.topnav .logo { font-weight: 700; font-size: 20px; color: #b3592e; }
+.topnav .btn, .btn { background: #b3592e; color: #fff; padding: 6px 16px; border-radius: 18px; display: inline-block; }
+.flash { padding: 10px 14px; border-radius: 8px; margin-bottom: 12px; }
+.flash.ok { background: #e8f5e9; color: #2e7d32; }
+.flash.err { background: #fdecea; color: #c62828; }
+.hint { color: #999; font-size: 13px; }
+.site-footer { text-align: center; color: #aaa; padding: 32px 0; font-size: 13px; }
+
+/* 阅读页：375px 移动基准 */
+.read-body { font-size: 18px; line-height: 2; }
+.read-body .para { margin: 0 0 1.25em; position: relative; }
+.read-head h1 { font-size: 20px; margin: 12px 0; }
+.read-actions { display: flex; gap: 12px; justify-content: center; padding: 32px 0; }
+.author-note { background: #fff8e1; padding: 12px; border-radius: 8px; font-size: 14px; margin: 16px 0; }
+
+/* 卡片网格 */
+.book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+.card { background: #fff; border-radius: 10px; padding: 12px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+.card img { width: 100%; border-radius: 6px; }
+
+/* 表格 / 表单 */
+.book-table { width: 100%; border-collapse: collapse; background: #fff; }
+.book-table th, .book-table td { padding: 10px; border-bottom: 1px solid #f0eae4; text-align: left; font-size: 14px; }
+label { display: block; margin: 10px 0; }
+input, select, textarea { width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px; font: inherit; }
+button { cursor: pointer; font: inherit; background: #b3592e; color: #fff; border: 0; border-radius: 18px; padding: 6px 18px; }
+.editor textarea { background: #fff; }
+.publish-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 12px; }
+.publish-row input[type=text], .publish-row select { width: auto; }
+
+/* 存证徽章 */
+.evidence-badge { display: inline-block; background: #e3f2fd; color: #1565c0; font-size: 12px; padding: 3px 10px; border-radius: 12px; }
+.vip { color: #c88700; font-style: normal; font-size: 12px; margin-left: 6px; }
+
+/* 登录框 */
+.auth-box, .locked-box, .closed-box, .verify-box { background: #fff; max-width: 420px; margin: 40px auto; padding: 28px; border-radius: 12px; }
+.home-hero { text-align: center; padding: 56px 0; }
+.home-hero h1 { font-size: 32px; color: #6d4c41; }
+.dash-links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px; }
+.dash-card { background: #fff; padding: 18px; border-radius: 10px; display: block; }
+.dash-card.dim { opacity: .5; }
+.shelf-row { display: flex; gap: 12px; background: #fff; padding: 12px; border-radius: 10px; margin-bottom: 10px; }
+.shelf-row img { width: 48px; height: 64px; object-fit: cover; border-radius: 4px; }
+
+/* ===== 首页模块（任务 8.3）===== */
+.hero-search { display: flex; gap: 8px; max-width: 480px; margin: 20px auto 0; }
+.home-banner { display: flex; gap: 12px; overflow-x: auto; padding: 8px 0 16px; }
+.banner-item { flex: 0 0 260px; background: #fff; border-radius: 10px; padding: 12px; display: flex; gap: 10px; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+.banner-item img { width: 44px; height: 58px; object-fit: cover; border-radius: 4px; }
+.home-columns { display: grid; grid-template-columns: 1fr 280px; gap: 24px; }
+.home-side .module { margin-bottom: 20px; }
+.module { background: #fff; border-radius: 10px; padding: 16px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
+.module h3 { font-size: 16px; margin-bottom: 10px; color: #6d4c41; }
+.rank-tabs { display: flex; gap: 4px; margin-bottom: 8px; }
+.rank-tabs button { background: #f0eae4; color: #6d4c41; font-size: 13px; padding: 4px 14px; }
+.rank-tabs button.on { background: #b3592e; color: #fff; }
+.rank-list li { display: flex; align-items: center; gap: 10px; padding: 5px 0; font-size: 14px; }
+.rank-list em { font-style: normal; font-weight: 700; color: #bbb; width: 20px; text-align: center; }
+.rank-list em.top1 { color: #e53935; } .rank-list em.top2 { color: #fb8c00; } .rank-list em.top3 { color: #fdd835; }
+.rank-list.hide { display: none; }
+.book-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
+.cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.cat-grid a { background: #faf7f2; border-radius: 8px; padding: 12px; display: block; }
+.cat-grid b { display: block; }
+.cat-grid span { font-size: 12px; color: #999; }
+.donation-feed li { padding: 5px 0; font-size: 13px; border-bottom: 1px dashed #f0eae4; list-style: none; }
+
+/* ===== 分类/搜索/标签（任务 8.1 / 8.4）===== */
+.cat-tabs, .sort-tabs { display: flex; flex-wrap: wrap; gap: 10px; padding: 10px 0; align-items: center; }
+.cat-tabs a, .sort-tabs a { padding: 4px 12px; border-radius: 14px; font-size: 14px; color: #6d4c41; }
+.cat-tabs a.on, .sort-tabs a.on { background: #b3592e; color: #fff; }
+.sort-tabs .divider { flex: 1; }
+.sort-tabs .search-link { color: #8a5a44; }
+.tag-cloud { padding: 10px 0; }
+.tag-cloud .label { font-size: 13px; color: #999; }
+.tag { display: inline-block; background: #f0eae4; color: #6d4c41; border-radius: 12px; padding: 2px 10px; font-size: 13px; margin: 3px 4px 3px 0; }
+.tag em { font-style: normal; font-size: 11px; color: #b39b8d; margin-left: 3px; }
+.tag.on { background: #b3592e; color: #fff; }
+.tag.clear { background: #fdecea; color: #c62828; }
+.card .meta { font-size: 12px; color: #aaa; }
+.card.small { padding: 8px; }
+.search-bar { display: flex; gap: 8px; max-width: 560px; margin: 24px auto; }
+
+/* 响应式：窄屏侧栏下沉 */
+@media (max-width: 900px) { .home-columns { grid-template-columns: 1fr; } }
+
+/* ===== 弹幕（任务 9.3/9.5）===== */
+.read-page { position: relative; }
+.danmu-layer { position: relative; height: 170px; overflow: hidden; background: rgba(0,0,0,.03); border-radius: 8px; margin: 10px 0; }
+.danmu-item { position: absolute; left: 100%; white-space: nowrap; font-size: 14px; color: #555;
+    animation: danmu-float 8s linear forwards; padding: 2px 6px; border-radius: 10px; }
+.danmu-item.pending { color: #bbb; font-style: italic; }
+@keyframes danmu-float { from { transform: translateX(0); } to { transform: translateX(calc(-100vw - 100%)); } }
+.danmu-bar { display: flex; gap: 8px; margin: 8px 0; }
+.danmu-bar input { flex: 1; }
+.danmu-bar input:disabled, .danmu-bar button:disabled { opacity: .5; }
+.danmu-status { min-height: 18px; font-size: 12px; color: #b39b8d; }
+
+/* ===== 打赏（任务 10.1/10.6）===== */
+.danmu-item.donation { color: #b8860b; font-weight: 600; background: rgba(255,215,0,.15); }
+.donation-flash { position: absolute; left: 0; right: 0; top: 40%; text-align: center;
+    font-size: 16px; font-weight: 700; color: #8b6914; animation: donation-blink 4s ease forwards; }
+@keyframes donation-blink { 0%,20%,40% { opacity: 0; } 10%,30%,90% { opacity: 1; } 100% { opacity: 0; } }
+.donate-modal { position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,.45); display: flex; align-items: center; }
+.donate-modal.hidden { display: none; }
+.donate-panel { background: var(--bg-card, #fff); margin: auto; padding: 18px; border-radius: 12px; width: min(360px, 92vw); }
+.gift-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+.gift-item { display: flex; flex-direction: column; gap: 2px; padding: 8px; border: 1px solid #ddd;
+    border-radius: 8px; background: #fff; cursor: pointer; font-size: 13px; }
+.gift-item.active { border-color: #b8860b; background: #fffbf0; }
+.gift-icon { font-size: 22px; }
+.donate-custom input, .donate-channels { width: 100%; }
+.donate-channels { display: flex; gap: 8px; margin: 10px 0; }
+.donate-channels .btn { flex: 1; }
+.btn.ghost { background: transparent; color: #666; width: 100%; }
+.btn.danger { border-color: #c0392b; color: #c0392b; }
+
+/* ===== 财务/对账（任务 10.5/10.8）===== */
+.cards { display: flex; gap: 12px; flex-wrap: wrap; margin: 12px 0; }
+.card { flex: 1; min-width: 140px; border: 1px solid #e5e0d8; border-radius: 10px; padding: 12px;
+    display: flex; flex-direction: column; gap: 4px; }
+.card b { font-size: 12px; color: #8a7f76; }
+.card span { font-size: 20px; font-weight: 700; color: #b8860b; }
+.toolbar { display: flex; gap: 8px; margin: 10px 0; }
+.inline { display: inline; }
+
+/* ===== 作者主权（任务 11.1）===== */
+.license-badge { color: #b8860b; font-weight: 600; text-decoration: underline dotted; }
+.license-card, .license-history { border: 1px solid #e5e0d8; border-radius: 10px; padding: 14px; margin: 12px 0; }
+.license-history ul { list-style: none; padding: 0; }
+.license-history li { padding: 6px 0; border-bottom: 1px dashed #eee; }

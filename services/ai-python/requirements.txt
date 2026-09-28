@@ -1,0 +1,11 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.4
+python-multipart==0.0.20
+reportlab==4.2.5
+
+# MVP 阶段只用标准库（hashlib + 自研零宽编码），依赖最小化
+# 后续若做 AIGC 检测或同义词水印再引入：
+# - httpx（调外部检测 API）
+# - openai/anthropic SDK（若自研）
+# - jieba / pkuseg（中文分词，若做全文检索二期）

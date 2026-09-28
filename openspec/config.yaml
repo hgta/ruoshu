@@ -1,0 +1,4 @@
+# 若书（ruoshu）项目 OpenSpec 配置
+# 主 spec 目录：当 change archive 时，其 delta specs 合并到此目录下
+# 当前 change（add-ruoshu-mvp）仍处于开发阶段，待 archive 后同步
+schema: spec-driven

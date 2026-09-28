@@ -1,0 +1,18 @@
+# 若书 · Laravel 调度器（任务 13.5，仅 1 号机跑，避免重复执行）
+[Unit]
+Description=Ruoshu Laravel scheduler
+After=network.target mysql.service redis.service
+PartOf=ruoshu.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/srv/ruoshu/current/web
+ExecStart=/usr/bin/php /srv/ruoshu/current/web/artisan schedule:work
+Restart=always
+RestartSec=5
+Environment=APP_ENV=production
+
+[Install]
+WantedBy=multi-user.target
