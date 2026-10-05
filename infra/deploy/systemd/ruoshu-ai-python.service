@@ -10,7 +10,7 @@ User=www-data
 Group=www-data
 WorkingDirectory=/srv/ruoshu/current/services/ai-python
 # 4 worker：指纹+水印各占 2（uvicorn 异步，CPU 密集段由 aiohttp 线程池兜）；9001 避开 php-fpm 9000
-ExecStart=/srv/ruoshu/venv/bin/uvicorn app:app --host 127.0.0.1 --port 9001 --workers 4
+ExecStart=/srv/ruoshu/venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 9001 --workers 4
 Restart=always
 RestartSec=5
 

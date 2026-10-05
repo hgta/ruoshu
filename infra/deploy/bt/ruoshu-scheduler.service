@@ -1,0 +1,16 @@
+# 若书 · 调度器（宝塔版：仅单机启用一台，勿重复）
+[Unit]
+Description=Ruoshu scheduler (BT)
+After=network.target
+
+[Service]
+Type=simple
+User=www
+Group=www
+WorkingDirectory=/www/wwwroot/ruoshu/current/web
+ExecStart=/www/server/php/83/bin/php /www/wwwroot/ruoshu/current/web/artisan schedule:work
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

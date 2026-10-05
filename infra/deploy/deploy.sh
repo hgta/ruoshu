@@ -23,8 +23,8 @@ REL="${APP_DIR}/releases/${RELEASE}"
 if [ ! -d apps/web/vendor ] || [ -f apps/web/vendor/.deploy-stale ]; then
     echo "!! 请先执行: (cd apps/web && composer install --no-dev --optimize-autoloader)"; exit 1
 fi
-command -v go >/dev/null && (cd apps/realtime && CGO_ENABLED=0 GOOS=linux go build -o /tmp/ruoshu-realtime ./cmd/... 2>/dev/null \
-    || CGO_ENABLED=0 GOOS=linux go build -o /tmp/ruoshu-realtime .) || { echo "!! 请先构建: (cd apps/realtime && go build)"; exit 1; }
+command -v go >/dev/null && (cd apps/realtime && CGO_ENABLED=0 GOOS=linux go build -o /tmp/ruoshu-realtime ./cmd/realtime) \
+    || { echo "!! 请先构建: (cd apps/realtime && CGO_ENABLED=0 GOOS=linux go build -o /tmp/ruoshu-realtime ./cmd/realtime)"; exit 1; }
 
 echo "==> [1/6] 同步代码 ${TARGET} -> releases/${RELEASE}"
 $SSH "mkdir -p ${REL} ${APP_DIR}/shared/storage"

@@ -1,0 +1,16 @@
+# 若书 · Python AI 边车（指纹/水印，仅内网 9001；入口模块 app.main:app）
+[Unit]
+Description=Ruoshu ai-python sidecar (BT)
+After=network.target
+
+[Service]
+Type=simple
+User=www
+Group=www
+WorkingDirectory=/www/wwwroot/ruoshu/current/services/ai-python
+ExecStart=/www/wwwroot/ruoshu/venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 9001 --workers 4
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

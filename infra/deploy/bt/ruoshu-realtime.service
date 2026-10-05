@@ -1,0 +1,22 @@
+# 若书 · Go WebSocket（宝塔版：二进制由发布机交叉编译上传，或服务器装 Go 后本地构建）
+[Unit]
+Description=Ruoshu realtime ws (BT)
+After=network.target
+
+[Service]
+Type=simple
+User=www
+Group=www
+Environment=REDIS_ADDR=127.0.0.1:6379
+Environment=REALTIME_PORT=8080
+Environment=JWT_ISSUER=ruoshu-prod
+WorkingDirectory=/www/wwwroot/ruoshu/current
+ExecStart=/www/wwwroot/ruoshu/bin/realtime
+Restart=always
+RestartSec=3
+TimeoutStopSec=30
+KillSignal=SIGTERM
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

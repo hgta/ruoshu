@@ -1,0 +1,19 @@
+# 若书 · 队列消费（宝塔版：www 用户 + /www/server/php/83/bin/php）
+[Unit]
+Description=Ruoshu queue worker (BT)
+After=network.target
+
+[Service]
+Type=simple
+User=www
+Group=www
+WorkingDirectory=/www/wwwroot/ruoshu/current/web
+ExecStart=/www/server/php/83/bin/php /www/wwwroot/ruoshu/current/web/artisan queue:work \
+    --queue=default --sleep=1 --tries=5 --max-time=3600 --memory=256
+Restart=always
+RestartSec=3
+TimeoutStopSec=60
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=multi-user.target

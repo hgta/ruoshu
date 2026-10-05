@@ -28,8 +28,12 @@ return [
     ],
 
     // Go 实时服务（JWT 颁发给 WebSocket 握手）
+    // 部署要点：REALTIME_JWT_ISSUER 必须与 Go 侧 JWT_ISSUER 完全一致，否则握手验签失败。
+    // 密钥对：openssl genrsa 生成，私钥给 Laravel（REALTIME_JWT_PRIVATE_KEY），公钥给 Go（JWT_PUBLIC_KEY）。
     'realtime' => [
         'ws_url' => env('REALTIME_WS_URL', 'ws://localhost:8080/ws'),
+        'jwt_issuer' => env('REALTIME_JWT_ISSUER', 'ruoshu-realtime'),
+        'jwt_private_key' => env('REALTIME_JWT_PRIVATE_KEY', ''),
     ],
 
     // Meilisearch 搜索（未配置则 SearchService 自动降级 LIKE）
